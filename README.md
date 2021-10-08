@@ -60,6 +60,7 @@ Here's why:
 * kubectl
 * minikube
 * go
+* docker
 
 ### Installation
 
