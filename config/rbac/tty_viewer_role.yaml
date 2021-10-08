@@ -1,0 +1,20 @@
+# permissions for end users to view tties.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tty-viewer-role
+rules:
+- apiGroups:
+  - terminal.tty-operator.com
+  resources:
+  - tties
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - terminal.tty-operator.com
+  resources:
+  - tties/status
+  verbs:
+  - get

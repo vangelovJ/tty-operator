@@ -1,0 +1,15 @@
+apiVersion: terminal.tty-operator.com/v1
+kind: Tty
+metadata:
+  name: tty
+  namespace: tty-operator-system
+spec:
+  size: 1
+  image: vangelovj/tty:v0.0.3
+  command:
+    - /tmp/gotty
+    - -w
+    - -once
+    - bash
+  port: 8080
+  serviceType: "ClusterIP"

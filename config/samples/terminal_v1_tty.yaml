@@ -1,0 +1,7 @@
+apiVersion: terminal.tty-operator.com/v1
+kind: Tty
+metadata:
+  name: tty-sample
+spec:
+  # Add fields here
+  foo: bar

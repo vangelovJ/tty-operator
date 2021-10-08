@@ -1,0 +1,24 @@
+# permissions for end users to edit tties.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tty-editor-role
+rules:
+- apiGroups:
+  - terminal.tty-operator.com
+  resources:
+  - tties
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - terminal.tty-operator.com
+  resources:
+  - tties/status
+  verbs:
+  - get

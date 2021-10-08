@@ -1,0 +1,19 @@
+domain: tty-operator.com
+layout:
+- go.kubebuilder.io/v3
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: tty-operator
+repo: github.com/vangelovj/tty-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: tty-operator.com
+  group: terminal
+  kind: Tty
+  path: github.com/vangelovj/tty-operator/api/v1
+  version: v1
+version: "3"
