@@ -119,8 +119,8 @@ func (r *TtyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 		return ctrl.Result{RequeueAfter: time.Minute}, nil
 	}
 
-	// Update the Memcached status with the pod names
-	// List the pods for this memcached's deployment
+	// Update the Tty status with the pod names
+	// List the pods for this tty's deployment
 	podList := &corev1.PodList{}
 	listOpts := []client.ListOption{
 		client.InNamespace(tty.Namespace),
@@ -145,8 +145,6 @@ func (r *TtyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 	return ctrl.Result{}, nil
 }
 
-// deploymentForMemcached returns a memcached Deployment object
-//						Command: []string{"memcached", "-m=64", "-o", "modern", "-v"},
 func (r *TtyReconciler) deploymentForTty(m *ttyv1.Tty) *appsv1.Deployment {
 	ls := labelsForTty(m.Name)
 	replicas := m.Spec.Size
@@ -183,7 +181,7 @@ func (r *TtyReconciler) deploymentForTty(m *ttyv1.Tty) *appsv1.Deployment {
 			},
 		},
 	}
-	// Set Memcached instance as the owner and controller
+	// Set Tty instance as the owner and controller
 	ctrl.SetControllerReference(m, dep, r.Scheme)
 	return dep
 }
@@ -192,7 +190,7 @@ func (r *TtyReconciler) serviceForTty(m *ttyv1.Tty) *corev1.Service {
 	ls := labelsForTty(m.Name)
 	port := m.Spec.Port
 
-	service := corev1.Service{
+	service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      m.Name,
 			Namespace: m.Namespace,
@@ -207,11 +205,12 @@ func (r *TtyReconciler) serviceForTty(m *ttyv1.Tty) *corev1.Service {
 			Type:     corev1.ServiceType(m.Spec.ServiceType),
 		},
 	}
-	return &service
+	ctrl.SetControllerReference(m, service, r.Scheme)
+	return service
 }
 
 // labelsForMemcached returns the labels for selecting the resources
-// belonging to the given memcached CR name.
+// belonging to the given tty CR name.
 func labelsForTty(name string) map[string]string {
 	return map[string]string{"app": "tty", "tty_cr": name}
 }
